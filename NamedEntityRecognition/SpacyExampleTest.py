@@ -24,9 +24,9 @@ def main():
         for X in doc.ents:
             entities.append((X.text, X.label_))
 
-    org_entities = filter_organizations(entities)
+    # org_entities = filter_organizations(entities)
     print("OUTPUT: ")
-    print(*org_entities, sep="\n")
+    print(*entities, sep="\n")
 
 
 if __name__ == "__main__":

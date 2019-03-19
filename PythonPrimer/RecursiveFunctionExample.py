@@ -16,7 +16,7 @@ def factorial_v1(n, acc=1):
 
 
 def main():
-    op = factorial(5)
+    op = factorial(2000)
     print(op)
     op = factorial_v1(5)
     print(op)

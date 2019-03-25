@@ -7,7 +7,7 @@ def main():
 
     # doc = nlp("Moinian Gets $595 Million Loan to Take Back 3 Columbus Circle")
     # doc = nlp("The Fresh Market to shut 15 stores")
-    doc = nlp("SL Green to get $223.3M from selling its stake in 3 Columbus Circle")
+    doc = nlp("Angelo Gorden to get $223.3M from selling its stake in 3 Columbus Circle")
 
     for np in list(doc.noun_chunks):
         np.merge(np.root.tag_, np.root.lemma_, np.root.ent_type_)
@@ -29,14 +29,22 @@ def main():
     for i, key in enumerate(db_props_dict):
         df.loc[i] = None, key, db_props_dict[key], nlp(db_props_dict[key])
 
+    result_df = None
     for docx in filtered_docs:
         match_score = df['SpacyDoc'].apply(lambda doc: doc.similarity(docx))
         temp_df = df.merge(match_score.to_frame(name='MatchScore'), left_index=True, right_index=True)
         temp_df = temp_df[temp_df['MatchScore'] > 0.9]
         temp_df['ExtractedEntity'] = docx.text
+        pd.to_pickle(temp_df, "test.txt")
+        temp_df = pd.read_pickle("test.txt")
         temp_df.drop('SpacyDoc', axis=1, inplace=True)
 
-        print(temp_df.to_json(orient='records'))
+        if result_df is None:
+            result_df = temp_df
+        else:
+            result_df = result_df.append(temp_df)
+
+    print(result_df.to_json(orient='records'))
 
 
 if __name__ == "__main__":

@@ -28,6 +28,17 @@ def main():
     output = re.findall(pattern, s2, flags=re.IGNORECASE)
     print(output)
 
+    outputitr = re.finditer(pattern, s2, flags=re.IGNORECASE)
+    for m in outputitr:
+        print("Found match '{}' ranging from index {} - {} "
+              .format(m.group(0), m.start(), m.end()))
+
+    # s2 = re.sub(pattern, 'Java', s2, flags=re.IGNORECASE)
+    # print(s2)
+
+    s2 = re.subn(pattern, 'Java', s2, flags=re.IGNORECASE)
+    print(s2)
+
 
 if __name__ == '__main__':
     main()
